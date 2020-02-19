@@ -1,6 +1,7 @@
 import './scss/main.scss';
-import './css/main.css';
-import src from './images/central_park.jpg'
+//import './css/main.css';
+//import './css/reset.css';
+//import src from './images/central_park.jpg'
 
 
 
@@ -13,7 +14,3 @@ let foo = function ( q ) {
 let foo2 = foo(2)();
 
 console.log ( foo2 );
-
-const image = new Image();
-image.src = src;
-document.body.appendChild(image);

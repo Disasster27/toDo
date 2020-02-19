@@ -1,10 +1,50 @@
-body {
+@import "../css/reset";
+
+.newTodo {
 	display: flex;
-	background-image: url(../images/central_park.jpg); 
-	h1 {
-		color: blueviolet;
-	}
-	h2 {
-		color: blueviolet;
-	}
+	justify-content: space-around;
+	margin-top: 75px; 
+}
+
+.newTodo_button {
+	padding: 10px;
+}
+
+.todoContainer {
+	display: flex;
+	padding: 15px;
+}
+
+.todo {
+	width: 200px;
+	height: 400px;
+	background-color: bisque;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 5px;
+}
+.todo_header {
+	display: flex;
+	justify-content: space-between;
+}
+
+.todo_task {
+	display: flex;
+	justify-content: space-between;
+}
+
+.marker{
+	width: 20px;
+	height: 20px;
+	background-color: chartreuse;
+	border-radius: 50%;
+}	
+
+.todo_transform {
+	width: 100px;
+	cursor: pointer;
+	background-color: aquamarine;
+	padding: 5px;
+	margin: 0 auto;
 }
