@@ -17,7 +17,7 @@
 .todo {
 	width: 250px;
 	height: 400px;
-	background-color: #fff;
+//	background-color: #fff;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -39,6 +39,7 @@
 	}
 	&__task {
 		display: flex;
+		flex-direction: column;
 		justify-content: space-between;
 		width: 90%;
 		margin: 0 auto;
@@ -64,6 +65,16 @@
 			color: coral;
 		}
 	}
+	&__task-text {
+		
+	}
+	&__tags {
+		margin-top: 10px;
+		border-top: 1px solid gray;
+		display: flex;
+//		justify-content: space-between;
+		flex-wrap: wrap;
+	}
 }
 
 .marker{
@@ -71,5 +82,18 @@
 	height: 20px;
 	background-color: chartreuse;
 	border-radius: 50%;
-}	
+}
+
+.tags {
+	display: inline-block;
+	background-color: coral;
+	border-radius: 3px;
+	padding: 2px;
+	margin: 3px;
+	cursor: pointer;
+	border: 1px solid transparent;
+	&:hover {
+		border: 1px solid #00f;
+	}
+}
 
