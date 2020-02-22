@@ -5,9 +5,35 @@
 	justify-content: space-around;
 	margin-top: 75px; 
 	&__button {
+		width: 50px;
+		height: 50px;
 		padding: 10px;
+		background-color: #67bc78;
+		border-radius: 50%;
+		cursor: pointer;
+		&:hover {
+			background-color: #89df9a;
+		}
+	}
+	&__pluss {
+		background: #fff;
+		height: 30px; 
+		width: 5px;
+		position: relative; 
+		left: 12px;
+	}
+	&__pluss:after {
+			content: "";
+			height: 5px; 
+			width: 30px;
+			background: #fff;
+			position: absolute; 
+			left: -12px; 
+			top: 12px;
 	}
 }
+
+
 
 .todo-container {
 	display: flex;
@@ -17,7 +43,6 @@
 .todo {
 	width: 250px;
 	height: 400px;
-//	background-color: #fff;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
@@ -25,17 +50,26 @@
 	border-radius: 5px;
 	overflow: hidden;
 	&__header {
+		height: 45px;
 		display: flex;
 		justify-content: space-between;
+		align-items: center;
 		background-color: #7c54f5;
-//		border-radius: 5px;
+		color: #fff;
 		
+		padding-left: 5px;
 	}
 	&__data {
 		margin: 5px;
+		font-size: 14px;
+		color: darkgrey;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 	}
 	&__delete-button {
-		margin: 5px;
+//		margin: 5px;
+		
 	}
 	&__task {
 		display: flex;
@@ -44,6 +78,7 @@
 		width: 90%;
 		margin: 0 auto;
 		border-top: 2px solid #7c54f5;
+		border-radius: 5px;
 		box-shadow: 0px 3px 6px 3px rgba(0,0,0,0.25);
 		padding: 5px;
 		&:hover {
@@ -77,12 +112,6 @@
 	}
 }
 
-.marker{
-	width: 20px;
-	height: 20px;
-	background-color: chartreuse;
-	border-radius: 50%;
-}
 
 .tags {
 	display: inline-block;
