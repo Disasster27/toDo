@@ -42,13 +42,14 @@
 
 .todo {
 	width: 250px;
-	height: 400px;
+//	height: 400px;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	box-shadow: 5px 6px 23px 6px rgba(0,0,0,.25);
 	border-radius: 5px;
 	overflow: hidden;
+	margin: 10px;
 	&__header {
 		height: 45px;
 		display: flex;

@@ -18,11 +18,11 @@
 			</div>
 		</div>
 		<did class="todo-container">
-			<div class="todo">
+			<div class="todo" data-todo-id="0" draggable="true">
 				<div class="todo__header">
 					<p>To do</p>
 				</div>
-				<div class="todo__task">
+				<div class="todo__task" draggable="true" data-task-id="0">
 					<div class="todo__data">
 						<p>12.02</p>
 						<div class="todo__delete-button">
@@ -48,10 +48,43 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="todo" data-todo-id="1" draggable="true">
+			<div class="todo__header">
+				<p>To do</p>
+			</div>
+			<div class="todo__task" draggable="true" data-task-id="0">
+				<div class="todo__data">
+					<p>12.02</p>
+					<div class="todo__delete-button">
+						<button>X</button>
+					</div>
+				</div>
+				<div class="todo__task-text">
+					<p>Доделать до конца</p>
+				</div>
+				<div class="todo__tags">
+					<span class="tags">task</span>
+					<span class="tags">interaction</span>
+					<span class="tags">related</span>
+					<span class="tags">Due date</span>
+				</div>
+			</div>
+			<div class="todo__footer">
+				<div class="todo__add-task">
+					+ Add new task
+				</div>
+				<div class="todo__delete-button">
+					<button>X</button>
+				</div>
+			</div>
+		</div>
 		</did>
+		
+		
 	</div>
 	
 	
-	<script src="./main.js"></script>
+	<script src="./assets/js/app.js"></script>
 </body>
 </html>
