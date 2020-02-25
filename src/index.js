@@ -27,7 +27,7 @@ document.querySelector( '.menu__button' ).addEventListener( 'click', event => {
 						+ Add new task
 					</div>
 					<div class="todo__delete-button">
-						<button>X</button>
+						X
 					</div>
 				</div>`;
 	todoIdCounter++;
@@ -35,12 +35,15 @@ document.querySelector( '.menu__button' ).addEventListener( 'click', event => {
 //	console.log( newTodo );
 	setAddNewTask ( newTodo );
 	shortSetContenteditable ( newTodo );
+//	deletTodo ( newTodo );
 } );
 
 shortSetContenteditable ( document );
 
+
+
 function setAddNewTask ( todoElement ) {
-//	console.log( todoElement );
+	
 	const addTaskButton = todoElement.querySelector( '.todo__add-task' );
 	addTaskButton.addEventListener( 'click', function ( event ) {
 		
@@ -51,7 +54,7 @@ function setAddNewTask ( todoElement ) {
 		newTask.innerHTML = `<div class="todo__data">
 					<p>12.02</p>
 					<div class="todo__delete-button">
-						<button>X</button>
+						X
 					</div>
 				</div>
 				<div class="todo__task-text">
@@ -70,6 +73,17 @@ function setAddNewTask ( todoElement ) {
 //		console.log( newTask );
 		shortSetContenteditable ( newTask );
 	} );
+	
+	deletTodo ( todoElement );
+//	todoElement.querySelector( '.todo__footer' ).addEventListener( 'click', ( event ) => {
+//			console.log( event.currentTarget );
+//			console.log( event.target );
+//			if ( event.target.classList.contains( 'todo__delete-button' ) ) {
+//				console.log( 1 );
+//				todoElement.remove();
+//			}
+//		} );
+//	console.log( deleteButton );
 };
 
 function setContenteditable ( noteElement ) {
@@ -86,4 +100,15 @@ function setContenteditable ( noteElement ) {
 
 function shortSetContenteditable (elem) {
 	elem.querySelectorAll( '.todo__note' ).forEach( setContenteditable );
+};
+
+function deletTodo ( elem ) {
+	elem.querySelector( '.todo__footer' ).addEventListener( 'click', ( event ) => {
+			console.log( event.currentTarget );
+			console.log( event.target );
+			if ( event.target.classList.contains( 'todo__delete-button' ) ) {
+				console.log( 1 );
+				elem.remove();
+			}
+		} );
 };

@@ -73,6 +73,14 @@
 	}
 	&__delete-button {
 //		margin: 5px;
+		background-color: darkgray;
+		padding: 3px;
+		cursor: pointer;
+		font-size: 15px;
+		color: black;
+		&:hover {
+			background-color: dimgray;
+		}
 		
 	}
 	&__task {
