@@ -34,10 +34,10 @@ document.querySelector( '.menu__button' ).addEventListener( 'click', event => {
 	document.querySelector( '.todo-container' ).insertAdjacentElement( 'beforeend', newTodo );
 //	console.log( newTodo );
 	setAddNewTask ( newTodo );
-	newTodo.querySelectorAll( '.todo__note' ).forEach( setContenteditable );
+	shortSetContenteditable ( newTodo );
 } );
 
-document.querySelectorAll( '.todo__note' ).forEach( setContenteditable );
+shortSetContenteditable ( document );
 
 function setAddNewTask ( todoElement ) {
 //	console.log( todoElement );
@@ -67,19 +67,23 @@ function setAddNewTask ( todoElement ) {
 		taskIdCounter++;
 		
 		todoElement.querySelector( '.todo__footer' ).insertAdjacentElement ( 'beforebegin', newTask );
-		console.log( newTask );
-		newTask.querySelectorAll( '.todo__note' ).forEach( setContenteditable );
+//		console.log( newTask );
+		shortSetContenteditable ( newTask );
 	} );
 };
 
 function setContenteditable ( noteElement ) {
 //	console.log(noteElement);
 	noteElement.addEventListener( 'dblclick', ( event ) => {
-		console.log(noteElement)
+//		console.log(noteElement)
 		noteElement.setAttribute( 'contenteditable', 'true' );
 		noteElement.focus();
 	} );
 	noteElement.addEventListener( 'blur', ( event ) => {
 		noteElement.removeAttribute( 'contenteditable' );
 	} );
+};
+
+function shortSetContenteditable (elem) {
+	elem.querySelectorAll( '.todo__note' ).forEach( setContenteditable );
 };
