@@ -1,5 +1,6 @@
 @import "../css/reset";
 
+
 .menu {
 	display: flex;
 	justify-content: space-around;
@@ -38,6 +39,8 @@
 .todo-container {
 	display: flex;
 	padding: 15px;
+	align-items: flex-start;
+//	height: 100%;
 }
 
 .todo {
@@ -77,7 +80,7 @@
 		flex-direction: column;
 		justify-content: space-between;
 		width: 90%;
-		margin: 0 auto;
+		margin: 10px auto;
 		border-top: 2px solid #7c54f5;
 		border-radius: 5px;
 		box-shadow: 0px 3px 6px 3px rgba(0,0,0,0.25);

@@ -13,6 +13,7 @@ const todoContainer = document.querySelector( '.todo-container' );
 document.querySelectorAll( '.todo' ).forEach( todoElement => {
 	const addTaskButton = todoElement.querySelector( '.todo__add-task' );
 	addTaskButton.addEventListener( 'click', function ( event ) {
+		
 		console.log( this );
 		
 		const newTask = `<div class="todo__task" draggable="true" data-task-id="${taskIdCounter}">
@@ -32,41 +33,32 @@ document.querySelectorAll( '.todo' ).forEach( todoElement => {
 						<span class="tags">Due date</span>
 					</div>
 				</div>`;
+		
 		taskIdCounter++;
 		
 		todoElement.querySelector( '.todo__footer' ).insertAdjacentHTML( 'beforebegin', newTask );
 		
-	} )
+	} );
+} );
+
+document.querySelector( '.menu__button' ).addEventListener( 'click', event => {
+	console.log( this );
+	const newTodo = `<div class="todo" data-todo-id="${todoIdCounter}" draggable="true">
+				<div class="todo__header">
+					<p>To do</p>
+				</div>
+				<div class="todo__footer">
+					<div class="todo__add-task">
+						+ Add new task
+					</div>
+					<div class="todo__delete-button">
+						<button>X</button>
+					</div>
+				</div>
+			</div>`;
+	todoIdCounter++;
+	document.querySelector( '.todo-container' ).insertAdjacentHTML( 'beforeend', newTodo );
+	
 } )
 
 
-
-
-
-
-
-
-////console.log( todoContainer );
-//
-//for ( let i = 0 ; i < addButton.length ; i++ ) {
-//	addButton[i].addEventListener( 'click', () => { addTodo() } );
-//}
-//
-//
-//function addTodo () {
-//	
-//	
-//	
-////	console.log( 2 );
-//	
-//}
-//
-//class todo {
-//	constructor () {
-//		
-//	}
-//	
-//	render () {
-//		
-//	}
-//}
