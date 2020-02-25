@@ -11,6 +11,8 @@ const addButton = document.querySelectorAll( '.menu__button' );
 const todoContainer = document.querySelector( '.todo-container' );
 
 document.querySelectorAll( '.todo' ).forEach( setAddNewTask );
+document.querySelectorAll( '.todo__task' ).forEach( deletTask );
+
 
 document.querySelector( '.menu__button' ).addEventListener( 'click', event => {
 //	console.log( this );
@@ -35,7 +37,6 @@ document.querySelector( '.menu__button' ).addEventListener( 'click', event => {
 //	console.log( newTodo );
 	setAddNewTask ( newTodo );
 	shortSetContenteditable ( newTodo );
-//	deletTodo ( newTodo );
 } );
 
 shortSetContenteditable ( document );
@@ -72,18 +73,10 @@ function setAddNewTask ( todoElement ) {
 		todoElement.querySelector( '.todo__footer' ).insertAdjacentElement ( 'beforebegin', newTask );
 //		console.log( newTask );
 		shortSetContenteditable ( newTask );
+		deletTask ( newTask );
 	} );
 	
 	deletTodo ( todoElement );
-//	todoElement.querySelector( '.todo__footer' ).addEventListener( 'click', ( event ) => {
-//			console.log( event.currentTarget );
-//			console.log( event.target );
-//			if ( event.target.classList.contains( 'todo__delete-button' ) ) {
-//				console.log( 1 );
-//				todoElement.remove();
-//			}
-//		} );
-//	console.log( deleteButton );
 };
 
 function setContenteditable ( noteElement ) {
@@ -106,6 +99,17 @@ function deletTodo ( elem ) {
 	elem.querySelector( '.todo__footer' ).addEventListener( 'click', ( event ) => {
 			console.log( event.currentTarget );
 			console.log( event.target );
+			if ( event.target.classList.contains( 'todo__delete-button' ) ) {
+				console.log( 1 );
+				elem.remove();
+			}
+		} );
+};
+
+function deletTask ( elem ) {
+	elem.querySelector( '.todo__data' ).addEventListener( 'click', ( event ) => {
+//			console.log( event.currentTarget );
+//			console.log( event.target );
 			if ( event.target.classList.contains( 'todo__delete-button' ) ) {
 				console.log( 1 );
 				elem.remove();
