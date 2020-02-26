@@ -5,6 +5,7 @@ import './scss/main.scss';
 
 let taskIdCounter = 0;
 let todoIdCounter = 0;
+let draggedNote = null;
 
 
 const addButton = document.querySelectorAll( '.menu__button' );
@@ -12,6 +13,7 @@ const todoContainer = document.querySelector( '.todo-container' );
 
 document.querySelectorAll( '.todo' ).forEach( setAddNewTask );
 document.querySelectorAll( '.todo__task' ).forEach( deletTask );
+document.querySelectorAll( '.todo__task' ).forEach( draggAndDrop );
 
 
 document.querySelector( '.menu__button' ).addEventListener( 'click', event => {
@@ -72,8 +74,16 @@ function setAddNewTask ( todoElement ) {
 		
 		shortSetContenteditable ( newTask );
 		deletTask ( newTask );
+		draggAndDrop ( newTask );
 	} );
 	deletTodo ( todoElement );
+	draggAndDrop ( todoElement );
+};
+
+function shortSetContenteditable (elem) {
+	elem.querySelectorAll( '.todo__note' ).forEach( setContenteditable );
+	
+	
 };
 
 function setContenteditable ( noteElement ) {
@@ -88,13 +98,58 @@ function setContenteditable ( noteElement ) {
 		noteElement.removeAttribute( 'contenteditable' );
 		if ( noteElement.textContent.trim().length == 0 ) {
 			noteElement.closest( '.todo__task' ).remove();
-		}
+		};
 	} );
+	
+	
+	
+	
 };
 
-function shortSetContenteditable (elem) {
-	elem.querySelectorAll( '.todo__note' ).forEach( setContenteditable );
-};
+function draggAndDrop ( elem ) {
+	elem.addEventListener( 'dragstart', dragstart_noteHandler )
+	elem.addEventListener( 'dragend', dragend_noteHandler )
+	elem.addEventListener( 'dradenter', dradenter_noteHandler )
+	elem.addEventListener( 'dragover', dragover_noteHandler )
+	elem.addEventListener( 'dragleave', dragleave_noteHandler )
+	elem.addEventListener( 'drop', drop_noteHandler )
+}
+
+function dragstart_noteHandler ( event ) {
+	draggedNote = this;
+	this.classList.add( 'dragged' );
+	event.stopPropagation();
+	console.log( 'dragstart' ,this )
+}
+function dragend_noteHandler ( event ) {
+	draggedNote = null;
+	this.classList.remove( 'dragged' );
+	event.stopPropagation();
+	console.log( 'dragend' ,this )
+}
+function dradenter_noteHandler ( event ) {
+	if ( this === draggedNote ) {
+		return
+	};
+}
+function dragover_noteHandler ( event ) {
+	if ( this === draggedNote ) {
+		return
+	};
+//	console.log( this )
+}
+function dragleave_noteHandler ( event ) {
+	if ( this === draggedNote ) {
+		return
+	};
+}
+function drop_noteHandler ( event ) {
+	if ( this === draggedNote ) {
+		return
+	};
+}
+
+
 
 function deletTodo ( elem ) {
 	elem.querySelector( '.todo__footer' ).addEventListener( 'click', ( event ) => {
@@ -111,3 +166,4 @@ function deletTask ( elem ) {
 			};
 		} );
 };
+
