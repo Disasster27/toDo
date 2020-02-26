@@ -60,12 +60,6 @@ function setAddNewTask ( todoElement ) {
 				</div>
 				<div class="todo__task-text">
 					<p class="todo__note"></p>
-				</div>
-				<div class="todo__tags">
-					<span class="tags">task</span>
-					<span class="tags">interaction</span>
-					<span class="tags">related</span>
-					<span class="tags">Due date</span>
 				</div>`;
 		
 		taskIdCounter++;
@@ -75,14 +69,11 @@ function setAddNewTask ( todoElement ) {
 		shortSetContenteditable ( newTask );
 		deletTask ( newTask );
 	} );
-	
 	deletTodo ( todoElement );
 };
 
 function setContenteditable ( noteElement ) {
-//	console.log(noteElement);
 	noteElement.addEventListener( 'dblclick', ( event ) => {
-//		console.log(noteElement)
 		noteElement.setAttribute( 'contenteditable', 'true' );
 		noteElement.focus();
 	} );
@@ -97,22 +88,16 @@ function shortSetContenteditable (elem) {
 
 function deletTodo ( elem ) {
 	elem.querySelector( '.todo__footer' ).addEventListener( 'click', ( event ) => {
-			console.log( event.currentTarget );
-			console.log( event.target );
 			if ( event.target.classList.contains( 'todo__delete-button' ) ) {
-				console.log( 1 );
 				elem.remove();
-			}
+			};
 		} );
 };
 
 function deletTask ( elem ) {
 	elem.querySelector( '.todo__data' ).addEventListener( 'click', ( event ) => {
-//			console.log( event.currentTarget );
-//			console.log( event.target );
 			if ( event.target.classList.contains( 'todo__delete-button' ) ) {
-				console.log( 1 );
 				elem.remove();
-			}
+			};
 		} );
 };
