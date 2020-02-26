@@ -65,7 +65,11 @@ function setAddNewTask ( todoElement ) {
 		taskIdCounter++;
 		
 		todoElement.querySelector( '.todo__footer' ).insertAdjacentElement ( 'beforebegin', newTask );
+		
 //		console.log( newTask );
+//		newTask.setAttribute( 'contenteditable', 'true' );
+//		newTask.focus()
+		
 		shortSetContenteditable ( newTask );
 		deletTask ( newTask );
 	} );
@@ -77,8 +81,14 @@ function setContenteditable ( noteElement ) {
 		noteElement.setAttribute( 'contenteditable', 'true' );
 		noteElement.focus();
 	} );
+	
+		noteElement.setAttribute( 'contenteditable', 'true' );
+		noteElement.focus()
 	noteElement.addEventListener( 'blur', ( event ) => {
 		noteElement.removeAttribute( 'contenteditable' );
+		if ( noteElement.textContent.trim().length == 0 ) {
+			noteElement.closest( '.todo__task' ).remove();
+		}
 	} );
 };
 
