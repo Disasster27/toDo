@@ -3,8 +3,8 @@ import './scss/main.scss';
 //import './css/reset.css';
 //import src from './images/central_park.jpg'
 
-let taskIdCounter = 0;
-let todoIdCounter = 0;
+let taskIdCounter = 4;
+let todoIdCounter = 1;
 let draggedNote = null;
 
 
@@ -24,21 +24,34 @@ document.querySelector( '.menu__button' ).addEventListener( 'click', event => {
 	newTodo.setAttribute( 'draggable', 'true' );
 	newTodo.setAttribute( 'data-todo-id', todoIdCounter );
 	newTodo.innerHTML = `<div class="todo__header">
-					<p class="todo__note">To do</p>
-				</div>
-				<div class="todo__footer">
-					<div class="todo__add-task">
-						+ Add new task
-					</div>
-					<div class="todo__delete-button">
-						X
-					</div>
-				</div>`;
+							<p class="todo__note">To do</p>
+						</div>
+						<div class="todo__body">
+						</div>
+						<div class="todo__footer">
+							<div class="todo__add-task">
+								+ Add new task
+							</div>
+							<div class="todo__delete-button">
+								X
+							</div>
+						</div>`;
 	todoIdCounter++;
 	document.querySelector( '.todo-container' ).insertAdjacentElement( 'beforeend', newTodo );
 //	console.log( newTodo );
 	setAddNewTask ( newTodo );
 	shortSetContenteditable ( newTodo );
+	
+	newTodo.addEventListener( 'dragover', ( event ) => {
+		event.preventDefault();
+	} );
+	
+	newTodo.addEventListener( 'drop', ( event ) => {
+		if ( draggedNote ) {
+			newTodo.querySelector( '.todo__body' ).append( draggedNote );
+		};
+	} );
+	
 } );
 
 shortSetContenteditable ( document );
@@ -77,7 +90,7 @@ function setAddNewTask ( todoElement ) {
 		draggAndDrop ( newTask );
 	} );
 	deletTodo ( todoElement );
-	draggAndDrop ( todoElement );
+//	draggAndDrop ( todoElement );
 };
 
 function shortSetContenteditable (elem) {
@@ -104,12 +117,13 @@ function setContenteditable ( noteElement ) {
 	
 	
 	
+	
 };
 
 function draggAndDrop ( elem ) {
 	elem.addEventListener( 'dragstart', dragstart_noteHandler )
 	elem.addEventListener( 'dragend', dragend_noteHandler )
-	elem.addEventListener( 'dradenter', dradenter_noteHandler )
+	elem.addEventListener( 'dragenter', dragenter_noteHandler )
 	elem.addEventListener( 'dragover', dragover_noteHandler )
 	elem.addEventListener( 'dragleave', dragleave_noteHandler )
 	elem.addEventListener( 'drop', drop_noteHandler )
@@ -119,15 +133,15 @@ function dragstart_noteHandler ( event ) {
 	draggedNote = this;
 	this.classList.add( 'dragged' );
 	event.stopPropagation();
-	console.log( 'dragstart' ,this )
+//	console.log( 'dragstart' ,this )
 }
 function dragend_noteHandler ( event ) {
 	draggedNote = null;
 	this.classList.remove( 'dragged' );
 	event.stopPropagation();
-	console.log( 'dragend' ,this )
+//	console.log( 'dragend' ,this )
 }
-function dradenter_noteHandler ( event ) {
+function dragenter_noteHandler ( event ) {
 	if ( this === draggedNote ) {
 		return
 	};
@@ -136,17 +150,36 @@ function dragover_noteHandler ( event ) {
 	if ( this === draggedNote ) {
 		return
 	};
-//	console.log( this )
+	event.preventDefault();
+//	console.log( event )
 }
 function dragleave_noteHandler ( event ) {
 	if ( this === draggedNote ) {
 		return
 	};
+//	console.log( this )
 }
 function drop_noteHandler ( event ) {
+	event.stopPropagation();
 	if ( this === draggedNote ) {
 		return
 	};
+	
+	if ( this.parentElement === draggedNote.parentElement ) {
+		const note = Array.from(  this.parentElement.querySelectorAll( '.todo__task' ) );
+		const indexA = note.indexOf( this );
+		const indexB = note.indexOf( draggedNote );
+		if ( indexA < indexB ) {
+			this.parentElement.insertBefore( draggedNote, this );
+		} else {
+			this.parentElement.insertBefore( draggedNote, this.nextElementSibling );
+		}
+		
+	} else {
+		this.parentElement.insertBefore( draggedNote, this );
+	};
+	
+	
 }
 
 
