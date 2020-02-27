@@ -1,7 +1,7 @@
 import './scss/main.scss';
 
-let taskIdCounter = 4;
-let todoIdCounter = 1;
+let taskIdCounter = 5;
+let todoIdCounter = 2;
 let draggedTask = null;
 let draggedTodo = null;
 
@@ -260,4 +260,58 @@ function deletTask ( elem ) {
 			};
 		} );
 };
+
+
+
+const storage = {
+	save () {
+		const object = {
+			todo : {
+				todoIdCounter : todoIdCounter,
+				itemsTodo : [],
+			},
+			task : {
+				taskIdCounter : taskIdCounter,
+				itemsTask : [],
+			},
+		};
+		
+		document.querySelectorAll( '.todo' ).forEach( elem => {
+			const todo = {
+				id : parseInt( elem.getAttribute( 'data-todo-id' ) ),
+				taskId : [],
+			};
+			
+			elem.querySelectorAll( '.todo__task' ).forEach( elem => {
+				todo.taskId.push( parseInt( elem.getAttribute( 'data-task-id' ) ) )
+			} );
+			
+			object.todo.itemsTodo.push( todo );
+		} );
+		
+		document.querySelectorAll( '.todo__task' ).forEach( elem => {
+			const task = {
+				id : parseInt( elem.getAttribute( 'data-task-id' ) ),
+				text : elem.querySelector( '.todo__note' ).textContent,
+			};
+			
+			object.task.itemsTask.push( task );
+			
+		} );
+		
+		const json = JSON.stringify( object );
+		
+		console.log( json );
+	},
+	
+	load () {},
+};
+
+storage.save();
+
+
+
+
+
+
 
