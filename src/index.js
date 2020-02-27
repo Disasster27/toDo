@@ -7,79 +7,25 @@ let draggedTodo = null;
 
 
 
-const addButton = document.querySelectorAll( '.menu__button' );
+const addButton = document.querySelector( '.menu__button' );
 const todoContainer = document.querySelector( '.todo-container' );
+
+
+
 
 document.querySelectorAll( '.todo' ).forEach( setAddNewTask );
 document.querySelectorAll( '.todo__task' ).forEach( deletTask );
 document.querySelectorAll( '.todo__task' ).forEach( draggAndDropTask );
 
 
-document.querySelector( '.menu__button' ).addEventListener( 'click', event => {
-	
-	const newTodo = document.createElement( 'div' );
-	newTodo.classList.add( 'todo' );
-	newTodo.setAttribute( 'draggable', 'true' );
-	newTodo.setAttribute( 'data-todo-id', todoIdCounter );
-	newTodo.innerHTML = `<div class="todo__header">
-							<p class="todo__note">To do</p>
-						</div>
-						<div class="todo__body">
-						</div>
-						<div class="todo__footer">
-							<div class="todo__add-task">
-								+ Add new task
-							</div>
-							<div class="todo__delete-button">
-								X
-							</div>
-						</div>`;
-	todoIdCounter++;
-	document.querySelector( '.todo-container' ).insertAdjacentElement( 'beforeend', newTodo );
-	setAddNewTask ( newTodo );
-	shortSetContenteditable ( newTodo );
-	
-	newTodo.addEventListener( 'dragover', ( event ) => {
-		event.preventDefault();
-	} );
-	
-	newTodo.addEventListener( 'drop', ( event ) => {
-		if ( draggedTask ) {
-			newTodo.querySelector( '.todo__body' ).append( draggedTask );
-		};
-	} );
-} );
+addButton.addEventListener( 'click', todoCreate );
 
 shortSetContenteditable ( document );
 
 function setAddNewTask ( todoElement ) {
 	
 	const addTaskButton = todoElement.querySelector( '.todo__add-task' );
-	addTaskButton.addEventListener( 'click', function ( event ) {
-		
-		const newTask = document.createElement( 'div' );
-		newTask.classList.add( 'todo__task' );
-		newTask.setAttribute( 'draggable', 'true' );
-		newTask.setAttribute( 'data-todo-id', todoIdCounter );
-		newTask.innerHTML = `<div class="todo__data">
-					<p>12.02</p>
-					<div class="todo__delete-button">
-						X
-					</div>
-				</div>
-				<div class="todo__task-text">
-					<p class="todo__note"></p>
-				</div>`;
-		
-		taskIdCounter++;
-		
-		todoElement.querySelector( '.todo__footer' ).insertAdjacentElement ( 'beforebegin', newTask );
-		
-		
-		shortSetContenteditable ( newTask );
-		deletTask ( newTask );
-		draggAndDropTask ( newTask );
-	} );
+	addTaskButton.addEventListener( 'click', ( event ) => { taskCreate ( todoElement ) } );
 	deletTodo ( todoElement );
 	draggAndDropTodo ( todoElement );
 };
@@ -135,7 +81,6 @@ function dragenter_taskHandler ( event ) {
 		return
 	};
 	event.stopPropagation();
-//	console.log('enter', this);
 };
 
 function dragover_taskHandler ( event ) {
@@ -150,7 +95,6 @@ function dragleave_taskHandler ( event ) {
 		return
 	};
 	event.stopPropagation();
-//	console.log('leav', event.target);
 };
 
 function drop_taskHandler ( event ) {
@@ -186,14 +130,12 @@ function dragstart_todoHandler ( event ) {
 	draggedTodo = this;
 	this.classList.add( 'dragged' );
 	event.stopPropagation();
-//	console.log('start', this);
 };
 
 function dragend_todoHandler ( event ) {
 	draggedTodo = null;
 	this.classList.remove( 'dragged' );
 	event.stopPropagation();
-//	console.log('end', this);
 };
 
 function dragenter_todoHandler ( event ) {
@@ -201,7 +143,6 @@ function dragenter_todoHandler ( event ) {
 		return
 	};
 	event.stopPropagation();
-//	console.log('enter', this);
 };
 
 function dragover_todoHandler ( event ) {
@@ -209,7 +150,6 @@ function dragover_todoHandler ( event ) {
 		return
 	};
 	event.preventDefault();
-//	console.log('over', this);
 };
 
 function dragleave_todoHandler ( event ) {
@@ -217,7 +157,6 @@ function dragleave_todoHandler ( event ) {
 		return
 	};
 	event.stopPropagation();
-//	console.log('leav', event.target);
 };
 
 function drop_todoHandler ( event ) {
@@ -227,7 +166,6 @@ function drop_todoHandler ( event ) {
 	};
 	console.log('drop', this.parentElement);
 	
-//	if ( this.parentElement === draggedTask.parentElement ) {
 		const todo = Array.from(  this.parentElement.querySelectorAll( '.todo' ) );
 		const indexA = todo.indexOf( this );
 		const indexB = todo.indexOf( draggedTodo );
@@ -236,14 +174,7 @@ function drop_todoHandler ( event ) {
 		} else {
 			this.parentElement.insertBefore( draggedTodo, this.nextElementSibling );
 		}
-//	} else {
-//		this.parentElement.insertBefore( draggedTodo, this );
-//	};
-	console.log( indexA , indexB );
 };
-
-
-
 
 function deletTodo ( elem ) {
 	elem.querySelector( '.todo__footer' ).addEventListener( 'click', ( event ) => {
@@ -260,8 +191,6 @@ function deletTask ( elem ) {
 			};
 		} );
 };
-
-
 
 const storage = {
 	save () {
@@ -301,13 +230,101 @@ const storage = {
 		
 		const json = JSON.stringify( object );
 		
-		console.log( json );
+		localStorage.setItem( 'todoList', json );
 	},
 	
-	load () {},
+	load () {
+		if ( !localStorage.getItem( 'todoList' ) ) {
+			return
+		};
+		
+		const object = JSON.parse( localStorage.getItem( 'todoList' ) );
+		
+		console.log( object );
+		
+		for ( let todo of object.todo.itemsTodo ) {
+			todoCreate( todo.id );
+			for ( let note of todo.taskId ) {
+				let todoElement = document.querySelector( `[data-todo-id="${todo.id}"]` );
+				taskCreate ( todoElement, note ); 
+			}
+		}
+		for ( let text of object.task.itemsTask ) {
+			let textElement = document.querySelector( `[data-task-id="${text.id}"]` );
+			textElement.querySelector( '.todo__note' ).textContent = `${text.text}`
+			
+			
+//			console.log( textElement.querySelector( '.todo__note' ) )
+		}
+		
+	},
 };
 
-storage.save();
+
+function todoCreate ( id ) {
+	
+	const newTodo = document.createElement( 'div' );
+	newTodo.classList.add( 'todo' );
+	newTodo.setAttribute( 'draggable', 'true' );
+	newTodo.setAttribute( 'data-todo-id', id );
+	newTodo.innerHTML = `<div class="todo__header">
+							<p class="todo__note">To do</p>
+						</div>
+						<div class="todo__body">
+						</div>
+						<div class="todo__footer">
+							<div class="todo__add-task">
+								+ Add new task
+							</div>
+							<div class="todo__delete-button">
+								X
+							</div>
+						</div>`;
+	todoIdCounter++;
+	document.querySelector( '.todo-container' ).insertAdjacentElement( 'beforeend', newTodo );
+	setAddNewTask ( newTodo );
+	shortSetContenteditable ( newTodo );
+	
+	newTodo.addEventListener( 'dragover', ( event ) => {
+		event.preventDefault();
+	} );
+	
+	newTodo.addEventListener( 'drop', ( event ) => {
+		if ( draggedTask ) {
+			newTodo.querySelector( '.todo__body' ).append( draggedTask );
+		};
+	} );
+};
+
+function taskCreate ( todoElement, id ) {
+//		console.log( todoElement )
+		const newTask = document.createElement( 'div' );
+		newTask.classList.add( 'todo__task' );
+		newTask.setAttribute( 'draggable', 'true' );
+		newTask.setAttribute( 'data-task-id', id );
+		newTask.innerHTML = `<div class="todo__data">
+					<p>12.02</p>
+					<div class="todo__delete-button">
+						X
+					</div>
+				</div>
+				<div class="todo__task-text">
+					<p class="todo__note"></p>
+				</div>`;
+		
+		taskIdCounter++;
+		
+		todoElement.querySelector( '.todo__footer' ).insertAdjacentElement ( 'beforebegin', newTask );
+		
+		
+		shortSetContenteditable ( newTask );
+		deletTask ( newTask );
+		draggAndDropTask ( newTask );
+	}
+
+
+//storage.save();
+storage.load();
 
 
 
