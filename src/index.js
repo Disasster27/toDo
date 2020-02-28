@@ -237,7 +237,7 @@ const storage = {
 		if ( !localStorage.getItem( 'todoList' ) ) {
 			return
 		};
-		
+//		debugger; 
 		const object = JSON.parse( localStorage.getItem( 'todoList' ) );
 		
 		console.log( object );
@@ -246,15 +246,11 @@ const storage = {
 			todoCreate( todo.id );
 			for ( let note of todo.taskId ) {
 				let todoElement = document.querySelector( `[data-todo-id="${todo.id}"]` );
-				taskCreate ( todoElement, note ); 
+//				console.log( note )
+//				console.log( object.task.itemsTask[note].text )
+				let noteText = object.task.itemsTask[note].text;
+				taskCreate ( todoElement, note , noteText ); 
 			}
-		}
-		for ( let text of object.task.itemsTask ) {
-			let textElement = document.querySelector( `[data-task-id="${text.id}"]` );
-			textElement.querySelector( '.todo__note' ).textContent = `${text.text}`
-			
-			
-//			console.log( textElement.querySelector( '.todo__note' ) )
 		}
 		
 	},
@@ -296,7 +292,7 @@ function todoCreate ( id ) {
 	} );
 };
 
-function taskCreate ( todoElement, id ) {
+function taskCreate ( todoElement, id , noteText = '' ) {
 //		console.log( todoElement )
 		const newTask = document.createElement( 'div' );
 		newTask.classList.add( 'todo__task' );
@@ -309,7 +305,7 @@ function taskCreate ( todoElement, id ) {
 					</div>
 				</div>
 				<div class="todo__task-text">
-					<p class="todo__note"></p>
+					<p class="todo__note">${ noteText }</p>
 				</div>`;
 		
 		taskIdCounter++;
