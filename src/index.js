@@ -13,14 +13,14 @@ const todoContainer = document.querySelector( '.todo-container' );
 
 
 
-document.querySelectorAll( '.todo' ).forEach( setAddNewTask );
-document.querySelectorAll( '.todo__task' ).forEach( deletTask );
-document.querySelectorAll( '.todo__task' ).forEach( draggAndDropTask );
+//document.querySelectorAll( '.todo' ).forEach( setAddNewTask );
+//document.querySelectorAll( '.todo__task' ).forEach( deletTask );
+//document.querySelectorAll( '.todo__task' ).forEach( draggAndDropTask );
 
 
 addButton.addEventListener( 'click', todoCreate );
 
-shortSetContenteditable ( document );
+//shortSetContenteditable ( document );
 
 function setAddNewTask ( todoElement ) {
 	
@@ -36,23 +36,41 @@ function shortSetContenteditable (elem) {
 
 function setContenteditable ( noteElement ) {
 //	console.log( noteElement )
+	let innerText = '';
+	let newInnerText = '';
+	
 	noteElement.addEventListener( 'dblclick', ( event ) => {
 		noteElement.setAttribute( 'contenteditable', 'true' );
-//		noteElement.closest( '.todo__task' ).removeAttribute( 'draggable' );
-//		noteElement.closest( '.todo' ).removeAttribute( 'draggable' );
-		
 		noteElement.focus();
+		innerText = noteElement.textContent;
+		console.log( innerText );
 	} );
-		noteElement.setAttribute( 'contenteditable', 'true' );
-		noteElement.focus()
 	noteElement.addEventListener( 'blur', ( event ) => {
 		noteElement.removeAttribute( 'contenteditable' );
-//		noteElement.closest( '.todo__task' ).setAttribute( 'draggable', 'true' );
-//		noteElement.closest( '.todo' ).setAttribute( 'draggable', 'true' );
+		newInnerText = noteElement.textContent;
+		console.log( newInnerText );
 		if ( noteElement.textContent.trim().length == 0 ) {
-			noteElement.closest( '.todo__task' ).remove();
+			noteElement.closest( '.todo__task' ).remove();	
 		};
+		
+		if ( innerText !== newInnerText ) {
+			console.log( 9 );
+			storage.save();
+		}
+		
 	} );
+	
+	if ( noteElement.parentElement.classList.contains( 'todo__task-text' )  && noteElement.textContent.trim().length == 0 ){
+		noteElement.setAttribute( 'contenteditable', 'true' );
+		noteElement.focus()
+		noteElement.addEventListener( 'blur', ( event ) => {
+			noteElement.removeAttribute( 'contenteditable' );
+			console.log( 23 );
+			if ( noteElement.textContent.trim().length == 0 ) {
+				noteElement.closest( '.todo__task' ).remove();	
+			};
+		} );
+	}
 };
 
 function draggAndDropTask ( elem ) {
@@ -239,20 +257,22 @@ const storage = {
 		};
 //		debugger; 
 		const object = JSON.parse( localStorage.getItem( 'todoList' ) );
-		
 		console.log( object );
 		
 		for ( let todo of object.todo.itemsTodo ) {
 			todoCreate( todo.id );
 			for ( let note of todo.taskId ) {
 				let todoElement = document.querySelector( `[data-todo-id="${todo.id}"]` );
-//				console.log( note )
-//				console.log( object.task.itemsTask[note].text )
-				let noteText = object.task.itemsTask[note].text;
+				let item = object.task.itemsTask.find( ( item ) => {
+					if ( item.id === note ) {
+						return item; 
+					}
+				} )
+				
+				let noteText = item.text;
 				taskCreate ( todoElement, note , noteText ); 
 			}
 		}
-		
 	},
 };
 
@@ -292,31 +312,39 @@ function todoCreate ( id ) {
 	} );
 };
 
-function taskCreate ( todoElement, id , noteText = '' ) {
-//		console.log( todoElement )
-		const newTask = document.createElement( 'div' );
-		newTask.classList.add( 'todo__task' );
-		newTask.setAttribute( 'draggable', 'true' );
-		newTask.setAttribute( 'data-task-id', id );
-		newTask.innerHTML = `<div class="todo__data">
-					<p>12.02</p>
-					<div class="todo__delete-button">
-						X
-					</div>
-				</div>
-				<div class="todo__task-text">
-					<p class="todo__note">${ noteText }</p>
-				</div>`;
+function taskCreate ( todoElement, id, noteText = '' ) {
+//		console.log( id )
+	
+	if ( id ) {
 		
+	} else {
+		id = taskIdCounter;
 		taskIdCounter++;
-		
-		todoElement.querySelector( '.todo__footer' ).insertAdjacentElement ( 'beforebegin', newTask );
-		
-		
-		shortSetContenteditable ( newTask );
-		deletTask ( newTask );
-		draggAndDropTask ( newTask );
 	}
+	
+	const newTask = document.createElement( 'div' );
+	newTask.classList.add( 'todo__task' );
+	newTask.setAttribute( 'draggable', 'true' );
+	newTask.setAttribute( 'data-task-id', id );
+	newTask.innerHTML = `<div class="todo__data">
+				<p>12.02</p>
+				<div class="todo__delete-button">
+					X
+				</div>
+			</div>
+			<div class="todo__task-text">
+				<p class="todo__note">${ noteText }</p>
+			</div>`;
+	
+//	taskIdCounter++;
+	
+	todoElement.querySelector( '.todo__footer' ).insertAdjacentElement ( 'beforebegin', newTask );
+	
+	
+	shortSetContenteditable ( newTask );
+	deletTask ( newTask );
+	draggAndDropTask ( newTask );
+}
 
 
 //storage.save();
