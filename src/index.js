@@ -18,7 +18,10 @@ const todoContainer = document.querySelector( '.todo-container' );
 //document.querySelectorAll( '.todo__task' ).forEach( draggAndDropTask );
 
 
-addButton.addEventListener( 'click', todoCreate );
+addButton.addEventListener( 'click', event => {
+	todoCreate();
+	storage.save();
+} );
 
 //shortSetContenteditable ( document );
 
@@ -92,6 +95,7 @@ function dragend_taskHandler ( event ) {
 	draggedTask = null;
 	this.classList.remove( 'dragged' );
 	event.stopPropagation();
+	storage.save();
 };
 
 function dragenter_taskHandler ( event ) {
@@ -154,6 +158,7 @@ function dragend_todoHandler ( event ) {
 	draggedTodo = null;
 	this.classList.remove( 'dragged' );
 	event.stopPropagation();
+	storage.save();
 };
 
 function dragenter_todoHandler ( event ) {
@@ -198,6 +203,7 @@ function deletTodo ( elem ) {
 	elem.querySelector( '.todo__footer' ).addEventListener( 'click', ( event ) => {
 			if ( event.target.classList.contains( 'todo__delete-button' ) ) {
 				elem.remove();
+				storage.save();
 			};
 		} );
 };
@@ -206,6 +212,7 @@ function deletTask ( elem ) {
 	elem.querySelector( '.todo__data' ).addEventListener( 'click', ( event ) => {
 			if ( event.target.classList.contains( 'todo__delete-button' ) ) {
 				elem.remove();
+				storage.save();
 			};
 		} );
 };
@@ -254,10 +261,12 @@ const storage = {
 	load () {
 		if ( !localStorage.getItem( 'todoList' ) ) {
 			return
-		};
-//		debugger; 
+		}; 
 		const object = JSON.parse( localStorage.getItem( 'todoList' ) );
 		console.log( object );
+		
+		taskIdCounter = object.task.taskIdCounter;
+		todoIdCounter = object.todo.todoIdCounter;
 		
 		for ( let todo of object.todo.itemsTodo ) {
 			todoCreate( todo.id );
@@ -268,7 +277,6 @@ const storage = {
 						return item; 
 					}
 				} )
-				
 				let noteText = item.text;
 				taskCreate ( todoElement, note , noteText ); 
 			}
@@ -278,6 +286,13 @@ const storage = {
 
 
 function todoCreate ( id ) {
+	
+	if ( id || id === 0 ) {
+		
+	} else {
+		id = todoIdCounter;
+		todoIdCounter++;
+	}
 	
 	const newTodo = document.createElement( 'div' );
 	newTodo.classList.add( 'todo' );
@@ -296,7 +311,7 @@ function todoCreate ( id ) {
 								X
 							</div>
 						</div>`;
-	todoIdCounter++;
+//	todoIdCounter++;
 	document.querySelector( '.todo-container' ).insertAdjacentElement( 'beforeend', newTodo );
 	setAddNewTask ( newTodo );
 	shortSetContenteditable ( newTodo );
@@ -315,7 +330,7 @@ function todoCreate ( id ) {
 function taskCreate ( todoElement, id, noteText = '' ) {
 //		console.log( id )
 	
-	if ( id ) {
+	if ( id || id === 0 ) {
 		
 	} else {
 		id = taskIdCounter;
@@ -349,6 +364,7 @@ function taskCreate ( todoElement, id, noteText = '' ) {
 
 //storage.save();
 storage.load();
+
 
 
 
