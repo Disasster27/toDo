@@ -343,6 +343,9 @@ function taskCreate ( todoElement, id, noteText = '' ) {
 	newTask.setAttribute( 'data-task-id', id );
 	newTask.innerHTML = `<div class="todo__data">
 				<p>12.02</p>
+				<div class="todo__media">
+					X
+				</div>
 				<div class="todo__delete-button">
 					X
 				</div>
@@ -359,8 +362,16 @@ function taskCreate ( todoElement, id, noteText = '' ) {
 	shortSetContenteditable ( newTask );
 	deletTask ( newTask );
 	draggAndDropTask ( newTask );
+	media( newTask );
 }
 
+function media ( elem ) {
+	elem.querySelector( '.todo__media' ).addEventListener( 'click', event => {
+		console.log( elem.querySelector( '.todo__note' ) )
+		elem.querySelector( '.todo__note' ).setAttribute( 'contenteditable', 'true' );
+		elem.querySelector( '.todo__note' ).focus()
+	} ) 
+}
 
 //storage.save();
 storage.load();

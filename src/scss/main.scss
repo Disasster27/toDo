@@ -147,3 +147,18 @@
 .under {
 	opacity: 0.5;
 }
+
+.todo__media {
+	background-color: burlywood;
+	padding: 3px;
+	display: none;
+}
+
+@media only screen and (max-width: 450px) {
+	.todo__header {
+		background-color: darkorange;
+	}
+	.todo__media {
+		display: block;
+	}
+}
