@@ -247,6 +247,7 @@ const storage = {
 			const task = {
 				id : parseInt( elem.getAttribute( 'data-task-id' ) ),
 				text : elem.querySelector( '.todo__note' ).textContent,
+				dateOfCreate : elem.querySelector( '.date' ).textContent,
 			};
 			
 			object.task.itemsTask.push( task );
@@ -278,7 +279,8 @@ const storage = {
 					}
 				} )
 				let noteText = item.text;
-				taskCreate ( todoElement, note , noteText ); 
+				let date = item.dateOfCreate;
+				taskCreate ( todoElement, note, noteText, date ); 
 			}
 		}
 	},
@@ -327,7 +329,7 @@ function todoCreate ( id ) {
 	} );
 };
 
-function taskCreate ( todoElement, id, noteText = '' ) {
+function taskCreate ( todoElement, id, noteText = '', date = `${getDateOfCreate()}` ) {
 //		console.log( id )
 	
 	if ( id || id === 0 ) {
@@ -342,7 +344,7 @@ function taskCreate ( todoElement, id, noteText = '' ) {
 	newTask.setAttribute( 'draggable', 'true' );
 	newTask.setAttribute( 'data-task-id', id );
 	newTask.innerHTML = `<div class="todo__data">
-				<p>12.02</p>
+				<p class="date">${date}</p>
 				<div class="todo__media">
 					X
 				</div>
@@ -373,9 +375,17 @@ function media ( elem ) {
 	} ) 
 }
 
+function getDateOfCreate () {
+	const date = new Date();
+	const day = date.getDate();
+	const month = date.getMonth() + 1;
+	const year = date.getFullYear();
+	
+	return `${day}.${month}.${year}`;
+}
+
 //storage.save();
 storage.load();
-
 
 
 
