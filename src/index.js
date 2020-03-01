@@ -345,9 +345,6 @@ function taskCreate ( todoElement, id, noteText = '', date = `${getDateOfCreate(
 	newTask.setAttribute( 'data-task-id', id );
 	newTask.innerHTML = `<div class="todo__data">
 				<p class="date">${date}</p>
-				<div class="todo__media">
-					X
-				</div>
 				<div class="todo__delete-button">
 					X
 				</div>
@@ -365,14 +362,6 @@ function taskCreate ( todoElement, id, noteText = '', date = `${getDateOfCreate(
 	deletTask ( newTask );
 	draggAndDropTask ( newTask );
 	media( newTask );
-}
-
-function media ( elem ) {
-	elem.querySelector( '.todo__media' ).addEventListener( 'click', event => {
-		console.log( elem.querySelector( '.todo__note' ) )
-		elem.querySelector( '.todo__note' ).setAttribute( 'contenteditable', 'true' );
-		elem.querySelector( '.todo__note' ).focus()
-	} ) 
 }
 
 function getDateOfCreate () {
