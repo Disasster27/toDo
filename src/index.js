@@ -42,9 +42,14 @@ function setContenteditable ( noteElement ) {
 		innerText = noteElement.textContent;
 	} );
 	noteElement.addEventListener( 'touchstart', ( event ) => {
-		noteElement.setAttribute( 'contenteditable', 'true' );
-		noteElement.focus();
-		innerText = noteElement.textContent;
+		if ( event.changedTouches[0].target.classList.contains( 'todo__note' ) ) {
+			console.log(event.changedTouches[0].target)
+			noteElement.setAttribute( 'contenteditable', 'true' );
+			noteElement.focus();
+			innerText = noteElement.textContent;
+		}
+		
+		
 	} );
 	noteElement.addEventListener( 'blur', ( event ) => {
 		noteElement.removeAttribute( 'contenteditable' );
