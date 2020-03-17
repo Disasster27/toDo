@@ -39,12 +39,17 @@
 .todo-container {
 	display: flex;
 	padding: 15px;
+	justify-content: start;
+	@media screen and (max-width: 650px) and (min-width: 0px) {
+		justify-content: center;
+    } 
 	align-items: flex-start;
+	flex-wrap: wrap;
 //	height: 100%;
 }
 
 .todo {
-	min-width: 280px;
+	min-width: 290px;
 //	height: 400px;
 	display: flex;
 	flex-direction: column;
