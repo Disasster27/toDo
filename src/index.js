@@ -41,7 +41,7 @@ function setContenteditable ( noteElement ) {
 		noteElement.focus();
 		innerText = noteElement.textContent;
 	} );
-	noteElement.addEventListener( 'mousedown', ( event ) => {
+	noteElement.addEventListener( 'touchstart', ( event ) => {
 		noteElement.setAttribute( 'contenteditable', 'true' );
 		noteElement.focus();
 		innerText = noteElement.textContent;
@@ -282,19 +282,22 @@ const storage = {
 
 
 function todoCreate ( todo ) {
-	if ( todo.id || todo.id === 0 ) {
+	let innerTodo = todo;
+	if ( innerTodo ) {
 		
 	} else {
-		todo.id = todoIdCounter;
+		innerTodo = {};
+		innerTodo.id = innerTodo;
 		todoIdCounter++;
+		innerTodo.todoTitle = 'Todo'
 	}
 	
 	const newTodo = document.createElement( 'div' );
 	newTodo.classList.add( 'todo' );
 	newTodo.setAttribute( 'draggable', 'true' );
-	newTodo.setAttribute( 'data-todo-id', todo.id );
+	newTodo.setAttribute( 'data-todo-id', innerTodo.id );
 	newTodo.innerHTML = `<div class="todo__header">
-							<p class="todo__note">${ todo.todoTitle }</p>
+							<p class="todo__note">${ innerTodo.todoTitle }</p>
 						</div>
 						<div class="todo__body">
 						</div>
