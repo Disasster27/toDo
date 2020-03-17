@@ -36,7 +36,9 @@
     "webpack-dev-server": "^3.10.3",
     "webpack-merge": "^4.2.2"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.1"
+  },
   "repository": {
     "type": "git",
     "url": ""

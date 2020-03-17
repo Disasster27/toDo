@@ -44,7 +44,7 @@
 }
 
 .todo {
-	width: 250px;
+	min-width: 280px;
 //	height: 400px;
 	display: flex;
 	flex-direction: column;
@@ -72,14 +72,12 @@
 		align-items: center;
 	}
 	&__delete-button {
-//		margin: 5px;
-		background-color: darkgray;
 		padding: 3px;
 		cursor: pointer;
-		font-size: 15px;
+		font-size: 19px;
 		color: black;
 		&:hover {
-			background-color: dimgray;
+			color: #ff0000;
 		}
 		
 	}
@@ -113,7 +111,7 @@
 		}
 	}
 	&__task-text {
-		
+		padding: 10px;
 	}
 	&__note {
 		min-height: 15px;
