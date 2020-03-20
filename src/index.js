@@ -41,16 +41,16 @@ function setContenteditable ( noteElement ) {
 		noteElement.focus();
 		innerText = noteElement.textContent;
 	} );
-	noteElement.addEventListener( 'touchstart', ( event ) => {
-		if ( event.changedTouches[0].target.classList.contains( 'todo__note' ) ) {
-			console.log(event.changedTouches[0].target)
-			noteElement.setAttribute( 'contenteditable', 'true' );
-			noteElement.focus();
-			innerText = noteElement.textContent;
-		}
+	// noteElement.addEventListener( 'touchend', ( event ) => {
+		// if ( event.changedTouches[0].target.classList.contains( 'todo__note' ) ) {
+		// 	console.log(event.changedTouches[0].target)
+		// 	noteElement.setAttribute( 'contenteditable', 'true' );
+		// 	noteElement.focus();
+		// 	innerText = noteElement.textContent;
+		// }
 		
 		
-	} );
+	// } );
 	noteElement.addEventListener( 'blur', ( event ) => {
 		noteElement.removeAttribute( 'contenteditable' );
 		newInnerText = noteElement.textContent;
@@ -63,6 +63,8 @@ function setContenteditable ( noteElement ) {
 		}
 		
 	} );
+
+	
 	
 	if ( noteElement.parentElement.classList.contains( 'todo__task-text' )  && noteElement.textContent.trim().length == 0 ){
 		noteElement.setAttribute( 'contenteditable', 'true' );
@@ -75,6 +77,8 @@ function setContenteditable ( noteElement ) {
 		} );
 	}
 };
+
+
 
 function draggAndDropTask ( elem ) {
 	elem.addEventListener( 'dragstart', dragstart_taskHandler )
@@ -351,6 +355,8 @@ function taskCreate ( todoElement, id, noteText = '', date = `${getDateOfCreate(
 			<div class="todo__task-text">
 				<p class="todo__note">${ noteText }</p>
 			</div>`;
+
+	setOnEvent( newTask );
 	
 //	taskIdCounter++;
 	
@@ -360,7 +366,28 @@ function taskCreate ( todoElement, id, noteText = '', date = `${getDateOfCreate(
 	shortSetContenteditable ( newTask );
 	deletTask ( newTask );
 	draggAndDropTask ( newTask );
+};
+
+function setOnEvent ( newTask ) {
+	newTask.querySelector( '.todo__note' ).onclick = function touch () {
+		console.log(event)
+		let innerText = '';
+			// console.log(event.changedTouches[0].target)
+			newTask.setAttribute( 'contenteditable', 'true' );
+			newTask.focus();
+			innerText = newTask.textContent;
+		
+	};
 }
+
+// function touch () {
+// 	if ( event.changedTouches[0].target.classList.contains( 'todo__note' ) ) {
+// 		console.log(event.changedTouches[0].target)
+// 		noteElement.setAttribute( 'contenteditable', 'true' );
+// 		noteElement.focus();
+// 		innerText = noteElement.textContent;
+// 	}
+// };
 
 function getDateOfCreate () {
 	const date = new Date();
